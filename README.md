@@ -62,7 +62,7 @@ Each file has a signature, headers, and firmware
 ```
 
 |bytes|label|description|
-|-----|-----|-----------|
+|----:|----:|-----------|
 |1|C|number of values in header (can be zero)|
 |1|L|length of header value|
 |varies|V|header value|
@@ -99,7 +99,7 @@ TBD
 ```
 
 |bytes|label|description|
-|-----|-----|-----------|
+|----:|----:|-----------|
 |1|T|type of header|
 |varies|V|header value|
 |2|←↓|field delimiter (0x0d0a)|
