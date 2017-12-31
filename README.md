@@ -54,7 +54,7 @@ Each file has a signature, headers, and firmware
 |C|L|V...V|...|L|V...V|
 +-+-+=====+===+-+=====+
 | ...                 |
-| (repeat C times)    |
+| (repeat)            |
 | ...                 |
 +-+-+=====+===+-+=====+
 |C|L|V...V|...|L|V...V|
