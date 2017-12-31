@@ -35,7 +35,7 @@ Each file has a signature, headers, and firmware
 
 ---
 
-### Z format
+### Z (0x5a) format
 ##### SIGNATURE
 ```
 +---+
@@ -72,7 +72,7 @@ TBD
 
 ---
 
-### 1 format
+### 1 (0x31) format
 ##### SIGNATURE
 ```
 +---+
@@ -140,7 +140,7 @@ TBD
 
 ---
 
-### X format
+### X (0x58) format
 ##### SIGNATURE
 ```
 +---+
@@ -161,7 +161,7 @@ TBD
 
 ---
 
-### Y format
+### Y (0x59) format
 ##### SIGNATURE
 ```
 +---+
@@ -182,7 +182,7 @@ TBD
 
 ---
 
-### 0 format
+### 0 (0x30) format
 ##### SIGNATURE
 ```
 +---+
