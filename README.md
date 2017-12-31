@@ -45,7 +45,7 @@ Each file has a signature, headers, and firmware
 
 |bytes|label|description|
 |----:|----:|-----------|
-|3|S|signature (0x5a)|
+|1|S|signature (0x5a)|
 |2|←↓|field delimiter (0x0d0a)|
 
 ##### HEADERS
@@ -54,7 +54,7 @@ Each file has a signature, headers, and firmware
 |C|L|V...V|...|L|V...V|
 +-+-+=====+===+-+=====+
 | ...                 |
-| (repeat)            |
+| (repeat C times)    |
 | ...                 |
 +-+-+=====+===+-+=====+
 |C|L|V...V|...|L|V...V|
@@ -65,7 +65,7 @@ Each file has a signature, headers, and firmware
 |----:|----:|-----------|
 |1|C|number of values in header (can be zero)|
 |1|L|length of header value|
-|varies|V|header value|
+|varies|V|header value (length = L)|
 
 ##### FIRMWARE
 TBD
@@ -82,7 +82,7 @@ TBD
 
 |bytes|label|description|
 |----:|----:|-----------|
-|3|S|signature (0x31)|
+|1|S|signature (0x31)|
 |2|←↓|field delimiter (0x0d0a)|
 
 ##### HEADERS
@@ -150,7 +150,7 @@ TBD
 
 |bytes|label|description|
 |----:|----:|-----------|
-|3|S|signature (0x58)|
+|1|S|signature (0x58)|
 |2|←↓|field delimiter (0x0d0a)|
 
 ##### HEADERS
@@ -171,7 +171,7 @@ TBD
 
 |bytes|label|description|
 |----:|----:|-----------|
-|3|S|signature (0x59)|
+|1|S|signature (0x59)|
 |2|←↓|field delimiter (0x0d0a)|
 
 ##### HEADERS
@@ -192,7 +192,7 @@ TBD
 
 |bytes|label|description|
 |----:|----:|-----------|
-|3|S|signature (0x30)|
+|1|S|signature (0x30)|
 |2|←↓|field delimiter (0x0d0a)|
 
 ##### HEADERS
