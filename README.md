@@ -36,7 +36,7 @@ Each file has a signature, headers, and firmware
 ---
 
 ### Z (0x5a) format
-##### STATUS: high priority (most files use this format)
+##### STATUS: high priority (many files use this format)
 - [x] signature
 - [ ] headers
     - [ ] where are the encryption keys, are they in the 6th header?
@@ -82,7 +82,7 @@ TBD
 ---
 
 ### 1 (0x31) format
-##### STATUS: medium priority (many files use this format)
+##### STATUS: high priority (many files use this format)
 - [x] signature
 - [x] headers
 - [ ] firmware
