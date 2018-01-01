@@ -24,8 +24,8 @@ Each firmware file is named according to the part number
 for example, here is a firmware update for a 2016 Acura ILX EPS module:  
 `39990-TV9-A910.rwd.gz`
 
-|   |   |   |
-|---|---|---|
+|token|value|description|
+|-----|-----|-----------|
 |`MODULE`|39990|EPS module|
 |`VEHICLE`|TV9|Acura ILX|
 |`VERSION`|A910|manufacturer region/code|
@@ -36,6 +36,15 @@ Each file has a signature, headers, and firmware
 ---
 
 ### Z (0x5a) format
+##### STATUS: high priority (most files use this format)
+- [x] signature
+- [ ] headers
+    - [ ] where are the encryption keys, are they in the 6th header?
+- [ ] firmware
+    - [ ] first 8 bytes are different, so what are they?
+    - [ ] firmware is most likely encrypted, so what is the cipher?
+    - [ ] can we find checksums to validate?
+
 ##### SIGNATURE
 ```
 +---+
@@ -43,10 +52,10 @@ Each file has a signature, headers, and firmware
 +---+
 ```
 
-|bytes|label|description|
+|label|bytes|description|
 |----:|----:|-----------|
-|1|S|signature (0x5a)|
-|2|←↓|field delimiter (0x0d0a)|
+|S|1|signature (0x5a)|
+|←↓|2|delimiter (0x0d0a)|
 
 ##### HEADERS
 ```
@@ -61,11 +70,11 @@ Each file has a signature, headers, and firmware
 +-+-+=====+===+-+=====+
 ```
 
-|bytes|label|description|
+|label|bytes|description|
 |----:|----:|-----------|
-|1|C|number of values in header (can be zero)|
-|1|L|length of header value|
-|varies|V|header value (length = L)|
+|C|1|number of values in header (can be zero)|
+|L|1|length header value|
+|V|varies|header value (length = preceding L)|
 
 ##### FIRMWARE
 TBD
@@ -73,6 +82,14 @@ TBD
 ---
 
 ### 1 (0x31) format
+##### STATUS: medium priority (many files use this format)
+- [x] signature
+- [x] headers
+- [ ] firmware
+  - [ ] the last 4 bytes look different, what are they?
+  - [ ] 3 of 4 checksums don't come out correct, do I have the wrong start addresses? (see TODO comments in code)
+  - [ ] how do we identify location of checksums for all rwd files?
+
 ##### SIGNATURE
 ```
 +---+
@@ -80,10 +97,10 @@ TBD
 +---+
 ```
 
-|bytes|label|description|
+|label|bytes|description|
 |----:|----:|-----------|
-|1|S|signature (0x31)|
-|2|←↓|field delimiter (0x0d0a)|
+|S|1|signature (0x31)|
+|←↓|2|delimiter (0x0d0a)|
 
 ##### HEADERS
 ```
@@ -98,11 +115,11 @@ TBD
 +---+=======+===+=======+---+
 ```
 
-|bytes|label|description|
+|label|bytes|description|
 |----:|----:|-----------|
-|1|T|type of header|
-|varies|V|header value|
-|2|←↓|field delimiter (0x0d0a)|
+|T|1|type of header|
+|V|varies|header value|
+|←↓|2|delimiter (0x0d0a)|
 
 ##### FIRMWARE
 ```
@@ -133,14 +150,19 @@ TBD
 +----+----------------+
 ```
 
-|bytes|label|description|
+|label|bytes|description|
 |----:|----:|-----------|
-|4|A|address >> 4|
-|128|D|data|
+|A|4|address >> 4|
+|D|128|data|
 
 ---
 
 ### X (0x58) format
+##### STATUS: low priority (very few files in this format)
+- [x] signature
+- [ ] headers
+- [ ] firmware
+
 ##### SIGNATURE
 ```
 +---+
@@ -148,10 +170,10 @@ TBD
 +---+
 ```
 
-|bytes|label|description|
+|label|bytes|description|
 |----:|----:|-----------|
-|1|S|signature (0x58)|
-|2|←↓|field delimiter (0x0d0a)|
+|S|1|signature (0x58)|
+|←↓|2|delimiter (0x0d0a)|
 
 ##### HEADERS
 TBD
@@ -162,6 +184,11 @@ TBD
 ---
 
 ### Y (0x59) format
+##### STATUS: low priority (very few files in this format)
+- [x] signature
+- [ ] headers
+- [ ] firmware
+
 ##### SIGNATURE
 ```
 +---+
@@ -169,10 +196,10 @@ TBD
 +---+
 ```
 
-|bytes|label|description|
+|label|bytes|description|
 |----:|----:|-----------|
-|1|S|signature (0x59)|
-|2|←↓|field delimiter (0x0d0a)|
+|S|1|signature (0x59)|
+|←↓|2|delimiter (0x0d0a)|
 
 ##### HEADERS
 TBD
@@ -183,6 +210,11 @@ TBD
 ---
 
 ### 0 (0x30) format
+##### STATUS: low priority (very few files in this format)
+- [x] signature
+- [ ] headers
+- [ ] firmware
+
 ##### SIGNATURE
 ```
 +---+
@@ -190,10 +222,10 @@ TBD
 +---+
 ```
 
-|bytes|label|description|
+|label|bytes|description|
 |----:|----:|-----------|
-|1|S|signature (0x30)|
-|2|←↓|field delimiter (0x0d0a)|
+|S|1|signature (0x30)|
+|←↓|2|delimiter (0x0d0a)|
 
 ##### HEADERS
 TBD
