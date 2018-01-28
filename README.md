@@ -1,7 +1,7 @@
 # rwd-xray
 Honda/Acura calibration file (rwd) firmware extractor
 
-NOTE THAT THIS IS A WORK IN PROGRESS AND MAY NOT OUTPUT VALID FIRMWARE YET
+NOTE THAT THIS IS A WORK IN PROGRESS AND THE ONLY FIRMWARE THAT MAY WORK IS 39990-TV9-A910
 
 ### Usage
 From a terminal using python 2.x:  
