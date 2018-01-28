@@ -39,11 +39,11 @@ Each file has a signature, headers, and firmware
 ##### STATUS: high priority (many files use this format)
 - [x] signature
 - [ ] headers
-    - [ ] where are the encryption keys, are they in the 6th header?
+    - [ ] encryption keys - are they in the 6th header?
 - [ ] firmware
-    - [ ] first 8 bytes are different, so what are they?
-    - [ ] firmware is most likely encrypted, so what is the cipher?
-    - [ ] can we find checksums to validate?
+    - [ ] cipher - firmware is most likely encrypted
+    - [ ] checksums - need to find some to validate
+    - [ ] first 8 bytes - different, so what are they?
 
 ##### SIGNATURE
 ```
@@ -85,10 +85,11 @@ TBD
 ##### STATUS: high priority (many files use this format)
 - [x] signature
 - [x] headers
+    - [x] encryption keys
 - [ ] firmware
-  - [ ] the last 4 bytes look different, what are they?
-  - [ ] 3 of 4 checksums don't come out correct, do I have the wrong start addresses? (see TODO comments in code)
-  - [ ] how do we identify location of checksums for all rwd files?
+    - [x] cipher
+    - [ ] checksums - validated for 39990-TV9-A910, can we generalize for all files?
+    - [ ] last 4 bytes - different, what are they?
 
 ##### SIGNATURE
 ```

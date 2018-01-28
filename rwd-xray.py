@@ -36,16 +36,18 @@ def main():
         assert len(decoder) == 256, "decoder table is not complete"
 
         firmware = get_firmware[file_fmt](f, decoder)
-        # TODO: step 1 - figure out correct start indexes for 39990-TV9-A910.rwd.gz
-        # TODO: step 2 - how do we find these across different firmware files?
-        # print 'checksums:'
-        # print hex(ord(firmware[0x07fff])), "=", hex(ord(get_checksum(firmware[0x01800:0x07fff])))
-        # print hex(ord(firmware[0x225ff])), "=", hex(ord(get_checksum(firmware[0x08000:0x225ff])))
-        # print hex(ord(firmware[0x271ff])), "=", hex(ord(get_checksum(firmware[0x22600:0x271ff])))
-        # print hex(ord(firmware[0x295ff])), "=", hex(ord(get_checksum(firmware[0x27200:0x295ff])))
+        # TODO: how do we find these across different firmware files?
+        if (os.path.basename(f_name) == '39990-TV9-A910'):
+            print 'checksums:'
+            print hex(ord(firmware[0x07fff])), "=", hex(ord(get_checksum(firmware[0x01f1e:0x07fff])))
+            print hex(ord(firmware[0x225ff])), "=", hex(ord(get_checksum(firmware[0x08000:0x225ff])))
+            print hex(ord(firmware[0x271ff])), "=", hex(ord(get_checksum(firmware[0x23200:0x271ff])))
+            print hex(ord(firmware[0x295ff])), "=", hex(ord(get_checksum(firmware[0x27200:0x295ff])))
 
-        with open(f_name + '.bin', 'wb') as o:
+        f_out = f_name + '.bin'
+        with open(f_out, 'wb') as o:
             o.write(firmware)
+        print 'firmware: ' + f_out
 
 def get_5a_headers(f):
     headers = {}
@@ -112,7 +114,7 @@ def get_31_decoder(headers):
     k1, k2, k3 = map(ord, k)
     print "keys:", hex(k1), hex(k2), hex(k3)
     for i in range(256):
-        e = (((i - k3) ^ k2) + k1) & 0xFF
+        e = (((i - k1) ^ k2) + k3) & 0xFF
         decoder[chr(e)] = chr(i)
 
     return decoder
@@ -142,7 +144,7 @@ def get_31_firmware(f, decoder):
         for i in range(0 if addr_prev == 0 else addr_prev + 128, addr):
             firmware.append('\x00')
         for i in range(2, 130):
-            firmware.append(decoder[data[i]])
+            firmware.append(decoder[data[i]])        
 
     return ''.join(firmware)
 
