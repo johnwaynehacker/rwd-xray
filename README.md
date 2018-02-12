@@ -38,10 +38,10 @@ Each file has a signature, headers, and firmware
 ### Z (0x5a) format
 ##### STATUS: high priority (many files use this format)
 - [x] signature
-- [ ] headers
-    - [ ] encryption keys - are they in the 6th header?
+- [x] headers
+    - [x] encryption keys
 - [ ] firmware
-    - [ ] cipher - firmware is most likely encrypted
+    - [x] cipher
     - [ ] checksums - need to find some to validate
     - [ ] first 8 bytes - different, so what are they?
 
@@ -77,7 +77,27 @@ Each file has a signature, headers, and firmware
 |V|varies|header value (length = preceding L)|
 
 ##### FIRMWARE
-TBD
+```
++--------+
+|AAAAAAAA|
++--------+
+|AAAAAAAA|
++--------+-------+
+|DDDDDDDDDDDDDDDD|
+| ...            |
+| (repeat)       |
+| ...            |
+|DDDDDDDDDDDDDDDD|
++----+-----------+
+|????|
++----+
+```
+
+|label|bytes|description|
+|----:|----:|-----------|
+|A|8|end of block address|
+|D|varies|data (length = last end of block address)|
+|?|4|not sure what the 4 trailing bytes are|
 
 ---
 
@@ -133,7 +153,6 @@ TBD
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
-|    |DDDDDDDDDDDDDDDD|
 +----+----------------+
 | ...                 |
 | (repeat)            |
@@ -147,14 +166,16 @@ TBD
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
-|    |DDDDDDDDDDDDDDDD|
 +----+----------------+
+|????|
++----+
 ```
 
 |label|bytes|description|
 |----:|----:|-----------|
 |A|4|address >> 4|
 |D|128|data|
+|?|4|not sure what the 4 trailing bytes are|
 
 ---
 

@@ -6,18 +6,18 @@ import gzip
 
 def main():
     get_headers = {
-        "\x5A\x0D\x0A": get_5a_headers,
-        "\x31\x0D\x0A": get_31_headers,
+        "Z": get_5a_headers,
+        "1": get_31_headers,
     }
 
-    get_decoder = {
-        "\x5A\x0D\x0A": get_5a_decoder,
-        "\x31\x0D\x0A": get_31_decoder,
+    get_keys = {
+        "Z": get_5a_keys,
+        "1": get_31_keys,
     }
 
     get_firmware = {
-        "\x5A\x0D\x0A": get_5a_firmware,
-        "\x31\x0D\x0A": get_31_firmware,
+        "Z": get_5a_firmware,
+        "1": get_31_firmware,
     }
 
     f_name, f_ext = os.path.splitext(sys.argv[1])
@@ -27,12 +27,14 @@ def main():
         f_name, f_ext = os.path.splitext(f_name)
 
     with open_fn(sys.argv[1], 'rb') as f:
-        file_fmt = f.read(3)
+        file_fmt = f.read(3)[0]
+        print "format: " + file_fmt
 
         assert file_fmt in get_headers, "indicator bytes not recognized: " + file_fmt.encode("hex")
 
         headers = get_headers[file_fmt](f)
-        decoder = get_decoder[file_fmt](headers)
+        k1, k2, k3 = get_keys[file_fmt](headers)
+        decoder = get_decoder(k1, k2, k3)
         assert len(decoder) == 256, "decoder table is not complete"
 
         firmware = get_firmware[file_fmt](f, decoder)
@@ -54,12 +56,17 @@ def get_5a_headers(f):
 
     idx = 0
     null_cnt = 0
-    while null_cnt != 2:
+    while 1:
         headers[idx] = []
-        print "header[%d]:" % idx
         cnt = ord(f.read(1))
-        if cnt == 0: null_cnt += 1
+
         # headers are wrapped with 0x00 (stop when second instance is found)
+        if cnt == 0: null_cnt += 1
+        if null_cnt == 2:
+            f.seek(-1, 1)
+            break
+
+        print "header[%d]:" % idx
         for i in range(0, cnt):
             length = ord(f.read(1))
             data = f.read(length)
@@ -95,33 +102,40 @@ def get_31_headers(f):
 
     return headers
 
-def get_5a_decoder(headers):
-    # TODO: no idea if this is correct
-    decoder = {}
-
+def get_5a_keys(headers):
     k1, k2, k3 = map(ord, headers[5][0][0:3])
-    print "keys:", hex(k1), hex(k2), hex(k3)
-    for i in range(256):
-        e = (((i - k3) ^ k2) + k1) & 0xFF
-        decoder[chr(e)] = chr(i)
+    
+    return k1, k2, k3
 
-    return decoder
-
-def get_31_decoder(headers):
-    decoder = {}
-
+def get_31_keys(headers):
     k = headers['&'][0].decode('hex')
     k1, k2, k3 = map(ord, k)
-    print "keys:", hex(k1), hex(k2), hex(k3)
-    for i in range(256):
-        e = (((i - k1) ^ k2) + k3) & 0xFF
-        decoder[chr(e)] = chr(i)
 
-    return decoder
+    return k1, k2, k3
 
 def get_5a_firmware(f, decoder):
-    # TODO: no idea if this is correct (first 8 bytes look different)
-    return ''.join(map(lambda x: decoder[x], f.read()))
+    firmware = []
+    
+    # TODO: what do these addresses represent?
+    print 'leading addrs:'
+    print "0x%s" % f.read(4).encode('hex')
+    print "0x%s" % f.read(4).encode('hex')
+
+    addr = 0
+    while 1:
+        data = f.read(128)
+        # stop when there is no longer an address followed by 128 bytes of data
+        if len(data) != 128:
+            # TODO: what are the last 4 bytes?
+            print 'trailing data:'
+            for d in data:
+                print hex(ord(d)), '->', hex(ord(decoder[d]))
+            break
+
+        for d in data:
+            firmware.append(decoder[d])
+
+    return ''.join(firmware)
 
 def get_31_firmware(f, decoder):
     firmware = []
@@ -132,9 +146,9 @@ def get_31_firmware(f, decoder):
         # stop when there is no longer an address followed by 128 bytes of data
         if len(data) != 130:
             # TODO: what are the last 4 bytes?
-            # print 'trailing data:'
-            # for d in data:
-            #     print hex(ord(d)), '->', hex(ord(decoder[d]))
+            print 'trailing data:'
+            for d in data:
+                print hex(ord(d)), '->', hex(ord(decoder[d]))
             break
 
         addr_prev = addr
@@ -147,6 +161,16 @@ def get_31_firmware(f, decoder):
             firmware.append(decoder[data[i]])
 
     return ''.join(firmware)
+
+def get_decoder(k1, k2, k3):
+    decoder = {}
+
+    print "keys:", hex(k1), hex(k2), hex(k3)
+    for i in range(256):
+        e = (((i - k1) ^ k2) + k3) & 0xFF
+        decoder[chr(e)] = chr(i)
+
+    return decoder
 
 def get_checksum(data):
     result = -sum(map(ord, data))
