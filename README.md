@@ -31,19 +31,20 @@ for example, here is a firmware update for a 2016 Acura ILX EPS module:
 |`VERSION`|A910|manufacturer region/code|
 
 ## .rwd File Formats
-Each file has a signature, headers, and firmware
+Each file has a signature, headers, firmware and checksum
 
 ---
 
 ### Z (0x5a) format
-##### STATUS: high priority (many files use this format)
+TODO:
 - [x] signature
 - [x] headers
     - [x] encryption keys
 - [ ] firmware
     - [x] cipher
     - [ ] checksums - need to find some to validate
-    - [ ] first 8 bytes - different, so what are they?
+
+(many files use this format)
 
 ##### SIGNATURE
 ```
@@ -89,27 +90,36 @@ Each file has a signature, headers, and firmware
 | ...            |
 |DDDDDDDDDDDDDDDD|
 +----+-----------+
-|????|
-+----+
 ```
 
 |label|bytes|description|
 |----:|----:|-----------|
 |A|8|end of block address|
 |D|varies|data (length = last end of block address)|
-|?|4|not sure what the 4 trailing bytes are|
+
+##### CHECKSUM
+```
++----+
+|CCCC|
++----+
+```
+
+|label|bytes|description|
+|----:|----:|-----------|
+|C|4|sum of all bytes in file (excluding these bytes)|
 
 ---
 
 ### 1 (0x31) format
-##### STATUS: high priority (many files use this format)
+TODO:
 - [x] signature
 - [x] headers
     - [x] encryption keys
 - [ ] firmware
     - [x] cipher
     - [ ] checksums - validated for 39990-TV9-A910, can we generalize for all files?
-    - [ ] last 4 bytes - different, what are they?
+
+(many files use this format)
 
 ##### SIGNATURE
 ```
@@ -167,23 +177,33 @@ Each file has a signature, headers, and firmware
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
 +----+----------------+
-|????|
-+----+
 ```
 
 |label|bytes|description|
 |----:|----:|-----------|
 |A|4|address >> 4|
 |D|128|data|
-|?|4|not sure what the 4 trailing bytes are|
+
+##### CHECKSUM
+```
++----+
+|CCCC|
++----+
+```
+
+|label|bytes|description|
+|----:|----:|-----------|
+|C|4|sum of all bytes in file (excluding these bytes)|
 
 ---
 
 ### X (0x58) format
-##### STATUS: low priority (very few files in this format)
+TODO:
 - [x] signature
 - [ ] headers
 - [ ] firmware
+
+(very few files in this format)
 
 ##### SIGNATURE
 ```
@@ -206,10 +226,12 @@ TBD
 ---
 
 ### Y (0x59) format
-##### STATUS: low priority (very few files in this format)
+TODO:
 - [x] signature
 - [ ] headers
 - [ ] firmware
+
+(very few files in this format)
 
 ##### SIGNATURE
 ```
@@ -232,10 +254,12 @@ TBD
 ---
 
 ### 0 (0x30) format
-##### STATUS: low priority (very few files in this format)
+TODO:
 - [x] signature
 - [ ] headers
 - [ ] firmware
+
+(very few files in this format)
 
 ##### SIGNATURE
 ```
@@ -257,4 +281,4 @@ TBD
 
 ---
 
-credit goes to george hotz for reverse engineering the firmware encoding
+credit goes to george hotz for reverse engineering the first firmware cipher
