@@ -39,7 +39,8 @@ def get_part_number_prefix(fn):
 
 def main():
     f_name = sys.argv[1]
-    f_base = os.path.basename(f_name)
+    f_dir = os.path.dirname(f_name)
+    f_base = os.path.basename(f_name).split('.')[0]
     f_raw = read_file(f_name)
     f_type = "x" + binascii.b2a_hex(f_raw[0])
     f_module = importlib.import_module("format.{}".format(f_type))
@@ -80,7 +81,7 @@ def main():
             
             if match:
                 print("checksums good!")
-                f_out = f_name + '.bin'
+                f_out = os.path.join(f_dir, f_base + '.bin')
                 write_firmware(firmware, f_out)
                 break
 
@@ -99,7 +100,7 @@ def main():
         # write out decrypted firmware files
         for firmware in firmware_candidates:
             f_idx = "" if len(firmware_candidates) == 1 else "." + str(idx)
-            f_out = f_name + f_idx + '.bin'
+            f_out = os.path.join(f_dir, f_base + f_idx + '.bin')
             write_firmware(firmware, f_out)
             idx += 1
 

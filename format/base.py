@@ -2,6 +2,7 @@ import sys
 import struct
 import operator
 import itertools
+import re
 
 class Base(object):
     def __init__(self, data, headers, keys, encrypted):
@@ -51,6 +52,15 @@ class Base(object):
         return decoder
 
     def decrypt(self, search_value):
+        search_value_padded = ''.join(map(lambda c: c + '.', search_value))
+        print("search:")
+        print(search_value)
+        print(search_value_padded)
+
+        search_exact = re.compile('.*'+search_value+'.*', flags=re.IGNORECASE|re.MULTILINE|re.DOTALL)
+        # sometimes there is an extra character after each character
+        # 37805-RBB-J530 -> 3377880550--RRBCBA--JA503000
+        search_padded = re.compile('.*'+search_value_padded+'.*', flags=re.IGNORECASE|re.MULTILINE|re.DOTALL)
         operators = [
             { 'fn': operator.__xor__, 'sym': '^' },
             { 'fn': operator.__and__, 'sym': '&' },
@@ -81,7 +91,7 @@ class Base(object):
 
                 data = map(lambda x: '\x00' if x is None else decoder[x], self._firmware_encrypted)
                 decrypted = ''.join(data)
-                if search_value in decrypted and decrypted not in firmware_candidates:
+                if (search_exact.match(decrypted) or search_padded.match(decrypted)) and decrypted not in firmware_candidates:
                     sys.stdout.write('X')
                     firmware_candidates.append(decrypted)
                     display_ciphers.append(
