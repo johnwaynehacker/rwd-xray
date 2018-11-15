@@ -5,10 +5,11 @@ import itertools
 import re
 
 class Base(object):
-    def __init__(self, data, headers, keys, encrypted):
+    def __init__(self, data, headers, keys, addr_blocks, encrypted):
         self._file_format = data[0:1]
         self._file_headers = headers
         self._file_checksum = struct.unpack('<L', data[-4:])[0]
+        self._firmware_blocks = addr_blocks
         self._firmware_encrypted = encrypted
         self._keys = keys
 
@@ -25,6 +26,10 @@ class Base(object):
     @property
     def file_headers(self):
         return self._file_headers
+
+    @property
+    def firmware_blocks(self):
+        return self._firmware_blocks
 
     @property
     def firmware_encrypted(self):
@@ -80,20 +85,22 @@ class Base(object):
         key_perms = list(itertools.permutations(keys))
         op_perms = list(itertools.product(operators, repeat=3))
         display_ciphers = list()
+        attempted_decoders = list()
         for o1, o2, o3 in op_perms:
             for k1, k2, k3 in key_perms:
                 decoder = self._get_decoder(
                     k1['val'], k2['val'], k3['val'],
                     o1['fn'], o2['fn'], o3['fn'])
                 
-                if len(decoder) != 256:
+                if len(decoder) != 256 or decoder in attempted_decoders:
                     continue
+                attempted_decoders.append(decoder)
 
-                data = map(lambda x: '\x00' if x is None else decoder[x], self._firmware_encrypted)
-                decrypted = ''.join(data)
-                if (search_exact.match(decrypted) or search_padded.match(decrypted)) and decrypted not in firmware_candidates:
+                candidate = [map(lambda x: decoder[x], e) for e in self._firmware_encrypted]
+                decrypted = ''.join([c for l in candidate for c in l])
+                if (search_exact.match(decrypted) or search_padded.match(decrypted)) and candidate not in firmware_candidates:
                     sys.stdout.write('X')
-                    firmware_candidates.append(decrypted)
+                    firmware_candidates.append([''.join(c) for c in candidate])
                     display_ciphers.append(
                         "(((i {} {}) {} {}) {} {}) & 0xFF".format(
                             o1['sym'], k1['sym'],
@@ -120,6 +127,11 @@ class Base(object):
         info.extend([
             "k{} = {}".format(i, hex(ord(self._keys[i])))
             for i in range(len(self._keys))
+        ])
+        info.append("address blocks:")
+        info.extend([
+            "start = {} len = {}".format(hex(i["start"]), hex(i["length"]))
+            for i in self._firmware_blocks
         ])
 
         return '\n'.join(info)

@@ -66,10 +66,23 @@ def main():
         ],
     }
 
-    # validate known checksums
-    if f_base in checksums.keys():
-        idx = 0
-        for firmware in firmware_candidates:
+    if len(firmware_candidates) > 1:
+        print("multiple sets of keys resulted in data containing the part number")
+
+    firmware_good = list()
+    idx = 0
+    for fc in firmware_candidates:
+        # concat all address blocks to allow checksum validation using memory addresses
+        firmware = ''
+        for block in xrange(len(fc)):
+            start = fw.firmware_blocks[block]["start"]
+            # fill gaps with \x00
+            if len(firmware) < start:
+                firmware += '\x00' * (start-len(firmware))
+            firmware += fc[block]
+
+        # validate known checksums
+        if f_base in checksums.keys():
             print("firmware[{}] checksums:".format(idx))
             match = True
             for start, end in checksums[f_base]:
@@ -78,32 +91,30 @@ def main():
                 print("{} {} {}".format(hex(chk), "=" if chk == sum else "!=", hex(sum)))
                 if sum != chk:
                     match = False
-            
             if match:
                 print("checksums good!")
-                f_out = os.path.join(f_dir, f_base + '.bin')
-                write_firmware(firmware, f_out)
-                break
+                firmware_good.append(firmware)
+            else:
+                print("checksums bad!")
+        else:
+            # no checksums so assume good
+            firmware_good.append(firmware)
+        
+        idx += 1
 
-            idx += 1
+    # sometimes more than one set of keys will result in the part number being found
+    # hopefully the checksums narrowed it down to a single candidate
+    if len(firmware_good) > 1:
+        print("which firmware file is correct?  who knows!")
 
-        if not match:
-            print("failed to find firmware!")
-    else:
-        # sometimes more than one set of keys will result in the part number being found
-        # without known checksums we can't really tell which firmware file is correct
-        if len(firmware_candidates) > 1:
-            print("multiple sets of keys resulted in data containing the part number")
-            print("which firmware file is correct?  who knows!")
-
-        idx = 1
-        # write out decrypted firmware files
-        for firmware in firmware_candidates:
-            f_idx = "" if len(firmware_candidates) == 1 else "." + str(idx)
-            f_out = os.path.join(f_dir, f_base + f_idx + '.bin')
-            write_firmware(firmware, f_out)
-            idx += 1
-
+    idx = 1
+    # write out decrypted firmware files
+    for f_data in firmware_good:
+        start_addr = fw.firmware_blocks[0]["start"]
+        f_addr = hex(start_addr)
+        f_out = os.path.join(f_dir, f_base + '.' + f_addr + '.bin')
+        write_firmware(f_data[start_addr:], f_out)
+        idx += 1
 
 if __name__== "__main__":
     main()

@@ -1,14 +1,18 @@
+import struct
 from base import Base
 from header import Header
 from header_value import HeaderValue
 
 class x5a(Base):
     def __init__(self, data):
-        headers, header_data_len = self._parse_file_headers(data[3:])
-        fw_start_idx = header_data_len + 3 # account for file type indicator bytes
+        start_idx = 3 # skip file type indicator bytes
+        headers, header_data_len = self._parse_file_headers(data[start_idx:])
         keys = self._get_keys(headers)
-        encrypted = self._get_firmware(data[fw_start_idx:-4])
-        Base.__init__(self, data, headers, keys, encrypted)
+        
+        start_idx += header_data_len
+        addr_blocks, encrypted = self._get_firmware(data[start_idx:-4]) # exclude file checksum
+        
+        Base.__init__(self, data, headers, keys, addr_blocks, encrypted)
 
     def _parse_file_headers(self, data):
         headers = list()
@@ -48,12 +52,9 @@ class x5a(Base):
         raise Exception("could not find encryption key header!")
 
     def _get_firmware(self, data):
-        # TODO: store these somewhere
-        # print('firmware addrs: 0x{} 0x{}'.format(
-        #     binascii.b2a_hex(data[0:4]),
-        #     binascii.b2a_hex(data[4:8])
-        # ))
+        start = struct.unpack('!I', data[0:4])[0]
+        length = struct.unpack('!I', data[4:8])[0]
 
         firmware = data[8:]
-        assert len(firmware) % 8 == 0, "firmware length not a multiple of eight!"
-        return firmware
+        assert len(firmware) == length, "firmware length incorrect!"
+        return [{"start": start, "length": length}], [firmware]

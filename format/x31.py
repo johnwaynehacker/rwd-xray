@@ -6,11 +6,14 @@ from header_value import HeaderValue
 
 class x31(Base):
     def __init__(self, data):
-        headers, header_data_len = self._parse_file_headers(data[3:])
-        fw_start_idx = header_data_len + 3 # account for file type indicator bytes
+        start_idx = 3 # skip file type indicator bytes
+        headers, header_data_len = self._parse_file_headers(data[start_idx:])
         keys = self._get_keys(headers)
-        encrypted = self._get_firmware(data[fw_start_idx:-4])
-        Base.__init__(self, data, headers, keys, encrypted)
+
+        start_idx += header_data_len
+        addr_blocks, encrypted = self._get_firmware(data[start_idx:-4]) # exclude file checksum
+        
+        Base.__init__(self, data, headers, keys, addr_blocks, encrypted)
 
     def _parse_file_headers(self, data):
         headers = list()
@@ -61,18 +64,28 @@ class x31(Base):
 
     def _get_firmware(self, data):
         firmware = list()
+        addr_blocks = list()
         chunk_size = 130
         data_size = chunk_size - 2
         addr_next = 0
+        block_start = 0
+        block_data = list()
         for i in xrange(0, len(data), chunk_size):
             addr = (ord(data[i]) << 12) | (ord(data[i+1]) << 4)
             assert addr >= addr_next, "address decreased"
-            # fill any address gaps with None
-            skipped_bytes = addr - addr_next
-            if skipped_bytes:
-                # print "skipped_bytes", skipped_bytes
-                firmware.extend([None] * skipped_bytes)
-            firmware += data[i+2:i+data_size+2]
+            if addr != addr_next:
+                if len(block_data) > 0:
+                    firmware.append(block_data)
+                    addr_blocks.append({"start": block_start, "length": len(block_data)})
+                block_start = addr
+                block_data = list()
+            
+            block_data += data[i+2:i+data_size+2]
             addr_next = addr + data_size
+        if len(block_data) > 0:
+            firmware.append(block_data)
+            addr_blocks.append({"start": block_start, "length": len(block_data)})
 
-        return firmware
+        assert len(addr_blocks) > 0, "could not find firmware address blocks!"
+
+        return addr_blocks, firmware
