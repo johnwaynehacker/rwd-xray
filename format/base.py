@@ -72,6 +72,9 @@ class Base(object):
             { 'fn': operator.__or__,  'sym': '|' },
             { 'fn': operator.__add__, 'sym': '+' },
             { 'fn': operator.__sub__, 'sym': '-' },
+            { 'fn': operator.__mul__, 'sym': '*' },
+            { 'fn': operator.__div__, 'sym': '/' },
+            { 'fn': operator.__mod__, 'sym': '%' },
         ]
 
         keys = list()
