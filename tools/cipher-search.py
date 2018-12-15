@@ -11,6 +11,9 @@ OPERATORS = [
     { 'fn': operator.__or__,  'sym': '|' },
     { 'fn': operator.__add__, 'sym': '+' },
     { 'fn': operator.__sub__, 'sym': '-' },
+    { 'fn': operator.__mul__, 'sym': '*' },
+    { 'fn': operator.__div__, 'sym': '/' },
+    { 'fn': operator.__mod__, 'sym': '%' },
 ]
 
 def get_decoder(key1, key2, key3, op1, op2, op3):

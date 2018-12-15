@@ -30,12 +30,14 @@ def read_file(fn):
     
     return f_data
 
-def get_part_number_prefix(fn):
+def get_part_number_prefix(fn, short=False):
     f_name, f_ext = os.path.splitext(fn)
     f_base = os.path.basename(f_name)
-    part_num_prefix = f_base.replace('-','').replace('_', '')
-    part_num_prefix = part_num_prefix[0:5] + '-' + part_num_prefix[5:8] + '-' + part_num_prefix[8:12]
-    return part_num_prefix
+    part_num = f_base.replace('-','').replace('_', '')
+    prefix = part_num[0:5] + '-' + part_num[5:8]
+    if not short:
+        prefix += '-' + part_num[8:12]
+    return prefix
 
 def main():
     f_name = sys.argv[1]
@@ -51,8 +53,13 @@ def main():
     # attempt to decrypt firmware (validate by searching for part number in decrypted bytes)
     part_number_prefix = get_part_number_prefix(f_name)
     firmware_candidates = fw.decrypt(part_number_prefix)
+    if len(firmware_candidates) == 0:
+        # try with a shorter part number
+        print('failed on long part number, trying truncated part number ...')
+        part_number_prefix = get_part_number_prefix(f_name, short=True)
+        firmware_candidates = fw.decrypt(part_number_prefix)
 
-    if not len(firmware_candidates):
+    if len(firmware_candidates) == 0:
         print("decryption failed!")
         print("(could not find a cipher that results in the part number being in the data)")
         exit(1)

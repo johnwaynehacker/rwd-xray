@@ -89,8 +89,8 @@ class Base(object):
         op_perms = list(itertools.product(operators, repeat=3))
         display_ciphers = list()
         attempted_decoders = list()
-        for o1, o2, o3 in op_perms:
-            for k1, k2, k3 in key_perms:
+        for k1, k2, k3 in key_perms:
+            for o1, o2, o3 in op_perms:
                 decoder = self._get_decoder(
                     k1['val'], k2['val'], k3['val'],
                     o1['fn'], o2['fn'], o3['fn'])
