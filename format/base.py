@@ -49,12 +49,14 @@ class Base(object):
 
     def _get_decoder(self, key1, key2, key3, op1, op2, op3):
         decoder = {}
+        values = set()
 
-        for i in range(256):
-            e = op3(op2(op1(i, key1), key2), key3) & 0xFF
-            decoder[chr(e)] = chr(i)
+        for e in range(256):
+            d = op3(op2(op1(e, key1), key2), key3) & 0xFF
+            decoder[chr(e)] = chr(d)
+            values.add(d)
 
-        return decoder
+        return decoder if len(values) == 256 else None
 
     def decrypt(self, search_value):
         search_value_padded = ''.join(map(lambda c: c + '.', search_value))
@@ -95,7 +97,7 @@ class Base(object):
                     k1['val'], k2['val'], k3['val'],
                     o1['fn'], o2['fn'], o3['fn'])
                 
-                if len(decoder) != 256 or decoder in attempted_decoders:
+                if decoder is None or decoder in attempted_decoders:
                     continue
                 attempted_decoders.append(decoder)
 
