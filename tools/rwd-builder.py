@@ -42,7 +42,7 @@ def main():
     data_size = param_to_data_string(args.data_size)
 
     f_dir = os.path.dirname(args.encrypted_file)
-    f_base = os.path.basename(args.encrypted_file).split('.')[0]
+    f_base = os.path.splitext(os.path.basename(args.encrypted_file))[0]
     rwd_file = os.path.join(f_dir, f_base + '.rwd')
 
     indicator = '\x5A\x0D\x0A' # CAN format
