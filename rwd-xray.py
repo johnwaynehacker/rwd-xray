@@ -50,6 +50,12 @@ def main():
     fw = f_class(f_raw)
     print(fw)
 
+    # write out encrypted firmware
+    fenc_name = os.path.join(f_dir, f_base + '.enc')
+    with open(fenc_name, 'wb+') as fenc:
+        for fe in fw.firmware_encrypted:
+            fenc.write(fe)
+
     # attempt to decrypt firmware (validate by searching for part number in decrypted bytes)
     part_number_prefix = get_part_number_prefix(f_name)
     firmware_candidates = fw.decrypt(part_number_prefix)
