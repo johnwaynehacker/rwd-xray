@@ -30,6 +30,8 @@ for example, here is a firmware update for a 2016 Acura ILX EPS module:
 |`VEHICLE`|TV9|Acura ILX|
 |`VERSION`|A910|manufacturer region/code|
 
+Look at the [File Name Vehicle Reference](./FILENAME_VEHICLE_REFERENCE.md) to see what model and year each rwd file corresponds to.
+
 ## .rwd File Formats
 Each file has a signature, headers, firmware and checksum
 
