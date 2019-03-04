@@ -2,7 +2,7 @@
 
 From a firmware file name determine the corresponding model and year
 
-# Model/Year by Code
+## Model/Year by Code
 
 The `code` in the table below corresponds to the **bold** text of these examples:
 * 39990-**TV9**-A910.rwd.gz
