@@ -1,6 +1,6 @@
 # File Name Vehicle Reference
 
-From a firmware part number determine the corresponding make and model
+From a firmware file name determine the corresponding model and year
 
 # Model/Year by Code
 
