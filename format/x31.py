@@ -69,7 +69,7 @@ class x31(Base):
         data_size = chunk_size - 2
         addr_next = 0
         block_start = 0
-        block_data = list()
+        block_data = ""
         for i in xrange(0, len(data), chunk_size):
             addr = (ord(data[i]) << 12) | (ord(data[i+1]) << 4)
             assert addr >= addr_next, "address decreased"
@@ -78,7 +78,7 @@ class x31(Base):
                     firmware.append(block_data)
                     addr_blocks.append({"start": block_start, "length": len(block_data)})
                 block_start = addr
-                block_data = list()
+                block_data = ""
             
             block_data += data[i+2:i+data_size+2]
             addr_next = addr + data_size
