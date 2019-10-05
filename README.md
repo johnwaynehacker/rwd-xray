@@ -86,9 +86,9 @@ TODO:
 ##### FIRMWARE
 ```
 +--------+
-|AAAAAAAA|
+|SSSSSSSS|
 +--------+
-|AAAAAAAA|
+|LLLLLLLL|
 +--------+-------+
 |DDDDDDDDDDDDDDDD|
 | ...            |
@@ -100,7 +100,8 @@ TODO:
 
 |label|bytes|description|
 |----:|----:|-----------|
-|A|8|end of block address|
+|S|8|start address of firmware block|
+|L|8|length of firmware block|
 |D|varies|data (length = last end of block address)|
 
 ##### CHECKSUM
