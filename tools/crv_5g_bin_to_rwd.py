@@ -11,7 +11,7 @@ decrypt_lookup_table = {144: 72, 218: 55, 255: 255, 164: 1, 195: 26, 99: 2, 28: 
 
 
 def main():
-  # example: python rwd-builder.py --can-address 0x18DA30F1 --supported-versions 12345-XXX-A030 12345-XXX-A040 --security-key 0x000100020003 0x000100020003 --encryption-key 0x0a0b0c --encrypted-file 12345-YYY-A030-M1.enc --start-address 0x0 --data-size 0x10000
+  # example: python3 crv_5g_bin_to_rwd.py --input_bin /home/nanami/data/crv_5g_user_patched.bin
   parser = argparse.ArgumentParser()
   parser.add_argument("--input_bin", required=True, help="Full firmware binary file")
   args = parser.parse_args()
