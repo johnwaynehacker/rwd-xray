@@ -28,22 +28,33 @@ def checksum_by_negative_sum(fw, start, end):
 checksum_funcs = [checksum_by_sum, checksum_by_negative_sum]
 
 car_models = {
-  '39990-TLA-A030' : {
+  '39990-TLA-A030': {
     'can-address': '0x18DA30F1',
-    'supported-versions' : ['39990-TLA-A030',  '39990-TLA-A040'],
+    'supported-versions': ['39990-TLA-A030',  '39990-TLA-A040'],
     'security-key': ['0x011101121120', '0x011101121120'],
-    'encryption-key' :  '0x010203',
+    'encryption-key':  '0x010203',
     'start-address': 0x4000,
     'data-size': 0x6c000,
     # (checksum func idx, offset)
     'checksum-offsets': [(0, 0x6bf80), (1, 0x6bffe)]
   },
 
-  '39990-TBA-A030' : {
+  '39990-TBA-A030': {
     'can-address': '0x18DA03F1',
-    'supported-versions' : ['39990-TBA-A000', '39990-TBA-A010', '39990-TBA-A020', '39990-TBA-A030'],
+    'supported-versions': ['39990-TBA-A000', '39990-TBA-A010', '39990-TBA-A020', '39990-TBA-A030'],
     'security-key': ['0x001100121020', '0x001100121020', '0x011101121120', '0x011101121120'],
-    'encryption-key' :  '0x010203',
+    'encryption-key':  '0x010203',
+    'start-address': 0x4000,
+    'data-size': 0x4c000,
+    # (checksum func idx, offset)
+    'checksum-offsets': [(0, 0x4bf80), (1, 0x4bffe)]
+  },
+
+  '39990-TEA-T330': {
+    'can-address': '0x18DA30F1',
+    'supported-versions': ['39990-TEA-T330'],
+    'security-key': ['0x011101121120'],
+    'encryption-key': '0x010203',
     'start-address': 0x4000,
     'data-size': 0x4c000,
     # (checksum func idx, offset)
@@ -53,7 +64,7 @@ car_models = {
 }
 
 def main():
-  # example: python3 crv_5g_bin_to_rwd.py --input_bin /home/nanami/data/crv_5g_user_patched.bin
+  # example: python3 crv_5g_bin_to_rwd.py --input_bin crv_5g_user_patched.bin --model 39990-TLA-A030
   parser = argparse.ArgumentParser()
   parser.add_argument("--input_bin", required=True, help="Full firmware binary file")
   parser.add_argument("--model", default='39990-TLA-A030', help="EPS part number")
