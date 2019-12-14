@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#  Convert full firmware binary to rwd patch.
+# Convert full firmware binary to rwd patch.
 # Supported models:
 #   CR-V 5g (part num: 39990-TLA)
 #   Civic 2016 sedan (part num: 39990-TBA) 
