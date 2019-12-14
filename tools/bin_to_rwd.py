@@ -53,7 +53,7 @@ car_models = {
 }
 
 def main():
-  # example: python3 crv_5g_bin_to_rwd.py --input_bin /home/nanami/data/crv_5g_user_patched.bin
+  # example: python3 bin_to_rwd.py --input_bin /home/nanami/data/crv_5g_user_patched.bin
   parser = argparse.ArgumentParser()
   parser.add_argument("--input_bin", required=True, help="Full firmware binary file")
   parser.add_argument("--model", default='39990-TLA-A030', help="EPS part number")
