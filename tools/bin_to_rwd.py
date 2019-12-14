@@ -113,7 +113,7 @@ def main():
       '--data-size',  hex(m['data-size'])
     ]
     subprocess.check_call(cmds, cwd=cur_dir)
-    print('RWD file %s created.' % (out_enc_path + '.rwd'))
+    print('RWD file %s created.' % (out_enc_path[:-4] + '.rwd'))
 
 if __name__== "__main__":
     main()
