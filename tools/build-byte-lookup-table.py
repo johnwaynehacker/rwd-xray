@@ -38,10 +38,12 @@ def main():
     rwd_enc = f.read()
 
   for i in range(len(rwd_enc)):
-    if rwd_enc[i] in decrypt_lookup_table and decrypt_lookup_table[rwd_enc[i]] != full_fw[RWD_PATCH_START_ADDR + i]:
-      print('Build failed. The code in rwd is not the same as in firmware binary.')
-      sys.exit(-2)
-    decrypt_lookup_table[rwd_enc[i]] = full_fw[RWD_PATCH_START_ADDR + i]
+    if rwd_enc[i] in decrypt_lookup_table:
+      if decrypt_lookup_table[rwd_enc[i]] != full_fw[RWD_PATCH_START_ADDR + i]:
+        print('Build table failed. The code in rwd is not the same as in firmware binary.')
+        sys.exit(-2)
+    else:
+      decrypt_lookup_table[rwd_enc[i]] = full_fw[RWD_PATCH_START_ADDR + i]
 
   print('decrypt_lookup_table =', decrypt_lookup_table)
 
