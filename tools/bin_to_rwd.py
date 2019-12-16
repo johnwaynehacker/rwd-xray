@@ -4,6 +4,7 @@
 # Supported models:
 #   CR-V 5g (part num: 39990-TLA)
 #   Civic 2016 sedan (part num: 39990-TBA) 
+#   Civic 2016 hatckback Australia (part num: 39990-TEA) 
 #
 import os
 import sys
