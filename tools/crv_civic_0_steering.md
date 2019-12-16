@@ -40,7 +40,7 @@ python3 build-byte-lookup-table.py --input_bin ~/data/crv_5g_stock.bin --input_e
   - Open the CR-V or civic full firmware bin
   - Find "00 28 01 90" in the bin, modify "28" to "00", then save it.
 - Convert the bin to rwd using [bin_to_rwd.py](https://github.com/nanamiwang/rwd-xray/blob/master/tools/bin_to_rwd.py)
-  - CR-V
+- CR-V
 ```
 nanami@nanami-To-be-filled-by-O-E-M:~/rwd-xray/tools$ python3 bin_to_rwd.py --input_bin ~/data/crv_5g_user_patched.bin
 Creating rwd for model 39990-TLA-A030
@@ -58,7 +58,7 @@ file checksum: 0x38c2342
 done!
 RWD file /home/nanami/data/crv_5g_user_patched.bin.rwd created.
 ```
-  - Civic 39990-TBA
+- Civic 39990-TBA
 ```
 nanami@nanami-To-be-filled-by-O-E-M:~/rwd-xray/tools$ python3 bin_to_rwd.py --input_bin ~/data/civic_tba_0_steering.bin --model 39990-TBA-A030
 Creating rwd for model 39990-TBA-A030
@@ -77,9 +77,9 @@ done!
 RWD file /home/nanami/data/civic_tba_0_steering.bin.rwd created.
 ```
 
-### To be safe, verify the rwd, make sure we are making the correct modifications
-- Compare our homemade rwd with the stock rwd
-  - The speed low byte is changed from 0x28 to 0x0
+### Verify the rwd, make sure we are making the correct modifications
+- Compare our homemade rwd with the stock rwd using a hex editor
+  - The speed low byte should be changed from 0x28 to 0x0 correctly
 ![](https://i.ibb.co/H76yd0F/image.png)
 ```
 >>> hex(decrypt_lookup_table[0x71])
@@ -87,7 +87,7 @@ RWD file /home/nanami/data/civic_tba_0_steering.bin.rwd created.
 >>> hex(decrypt_lookup_table[0x10])
 '0x28'
 ```
-  - The block checksum, padded block checksum, rwd file checksum are updated correctly.
+  - The block checksum, padded block checksum, rwd file checksum are also updated correctly.
 
 ### How to test the rwd on car
 - Try the stock rwd first, flash it to your car. If it is working, your car is compatible with the 0 steering rwd.
