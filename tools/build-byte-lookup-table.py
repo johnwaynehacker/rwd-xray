@@ -8,7 +8,7 @@ import argparse
 import subprocess
 import struct
 
-from bin_to_rwd import decrypt_lookup_table as crv_enc_lookup_table
+from bin_to_rwd import default_decrypt_lookup_table as crv_enc_lookup_table
 
 RWD_PATCH_START_ADDR = 0x4000
 
@@ -44,6 +44,16 @@ def main():
         sys.exit(-2)
     else:
       decrypt_lookup_table[rwd_enc[i]] = full_fw[RWD_PATCH_START_ADDR + i]
+
+  # Verify that the encryption table is a correct one-to-one lookup table
+  encrypt_lookup_table = {}
+  for k, v in decrypt_lookup_table.items():
+    if v in encrypt_lookup_table:
+      if encrypt_lookup_table[v] != k:
+        print('Invalid encryption table.')
+        sys.exit(-2)
+    else:
+      encrypt_lookup_table[v] = k
 
   print('decrypt_lookup_table =', decrypt_lookup_table)
 
