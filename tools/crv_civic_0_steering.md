@@ -34,12 +34,12 @@ python3 build-byte-lookup-table.py --input_bin ~/data/crv_5g_stock.bin --input_e
 - We have a full eps firmware bin dumped from civic 39990-TBA, also the corresponding official rwd from i-HDS 1.004 installation package (You can find it by google) 
 - So we tried decrypting the code from civic rwd using the CR-V lookup table, it worked, the decrypted code totally match with the civic full firmware bin. So we have a conclusion that civic uses the same encryption algo as CR-V.
 
-### Make the 0 steering rwd
+### Patch the code and make the rwd
 - Patch the full firmware bin
   - A hex editor is ok for this job
   - Open the CR-V or civic full firmware bin
-  - Find "00 28 01 90" in the bin, modify "28" to "90", then save it.
-- Make the rwd using [bin_to_rwd.py](https://github.com/nanamiwang/rwd-xray/blob/master/tools/bin_to_rwd.py)
+  - Find "00 28 01 90" in the bin, modify "28" to "00", then save it.
+- Convert the bin to rwd using [bin_to_rwd.py](https://github.com/nanamiwang/rwd-xray/blob/master/tools/bin_to_rwd.py)
   - CR-V
 ```
 nanami@nanami-To-be-filled-by-O-E-M:~/rwd-xray/tools$ python3 bin_to_rwd.py --input_bin ~/data/crv_5g_user_patched.bin
@@ -77,7 +77,7 @@ done!
 RWD file /home/nanami/data/civic_tba_0_steering.bin.rwd created.
 ```
 
-### To be safe, verify that we are making the correct rwd
+### To be safe, verify the rwd, make sure we are making the correct modifications
 - Compare our homemade rwd with the original official rwd
   - The speed low byte is changed from 0x28 to 0x0
 ![](https://i.ibb.co/H76yd0F/image.png)
@@ -89,11 +89,11 @@ RWD file /home/nanami/data/civic_tba_0_steering.bin.rwd created.
 ```
   - The block checksum, padded block checksum, rwd file checksum are updated correctly.
 
-### How to test it on car
-- Try the official rwd first, flash it to your car. If this is working, your car is compatible.
-- Then try the homemade 0 steering rwd, it should also work because the part num and fw revision are the same.
+### How to test the rwd on car
+- Try the official rwd first, flash it to your car. If this is working, your car is compatible with the 0 steering rwd.
+- Then try flashing the homemade 0 steering rwd.
 - If the homemade rwd brick the eps, use official rwd to recover it.
-- <b>Caution! improper flashing may damage the eps. I don't have civic, so I never test it on car. Use it at your own risk.</b>
+- <b>Caution! Improper flashing may damage the eps. I don't have civic, so I never test it on car. Use it at your own risk.</b>
 ### The files
  - [Civic Official rwd](https://github.com/nanamiwang/rwd-xray/raw/master/tools/files/39990-TBA-A030-M1.rwd.gz)
  - [Civic 39990-TBA 0 steering rwd](https://github.com/nanamiwang/rwd-xray/raw/master/tools/files/civic_tba_0_steering.bin.rwd)
