@@ -5,11 +5,11 @@
 - Civic (eps motor part number 39990-TBA), Untested.
 - Civic (eps motor part number 39990-TEA), Untested.
 
-### Remove 25mph limitation in the firmware code (credits to goehot, greg, joe1, leycera)
+### Remove 25mph steering limitation in the firmware code (credits to goehot, greg, joe1, leycera)
 - CR-V 5g
 ![](https://i.ibb.co/ZXncZS8/image.png)
 ![](https://i.ibb.co/grytxpc/image.png)
-- Civic TBA
+- Civic 39990-TBA
 ![](https://i.ibb.co/KycgW3Y/image.png)
 ![](https://i.ibb.co/3cvL9cG/image.png)
 
@@ -95,5 +95,5 @@ RWD file /home/nanami/data/civic_tba_0_steering.bin.rwd created.
 - If the homemade rwd brick the eps, use official rwd to recover it.
 - <b>Caution! improper flashing may damage the eps. I don't have civic, so I never test it on car. Use it at your own risk.</b>
 ### The files
- - [Civic Official rwd]()
- - [Civic 39990-TBA 0 steering rwd]()
+ - [Civic Official rwd](https://github.com/nanamiwang/rwd-xray/raw/master/tools/files/39990-TBA-A030-M1.rwd.gz)
+ - [Civic 39990-TBA 0 steering rwd](https://github.com/nanamiwang/rwd-xray/raw/master/tools/files/civic_tba_0_steering.bin.rwd)
