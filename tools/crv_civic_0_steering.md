@@ -5,7 +5,7 @@
 - Civic (eps motor part number 39990-TBA), Untested.
 - Civic (eps motor part number 39990-TEA), Untested.
 
-### Remove 25mph steering limitation in the firmware code (credits to goehot, greg, joe1, leycera)
+### How to remove the 25mph steering limitation in the firmware code (credits to goehot, greg, joe1, leycera)
 - CR-V 5g
 ![](https://i.ibb.co/ZXncZS8/image.png)
 ![](https://i.ibb.co/grytxpc/image.png)
