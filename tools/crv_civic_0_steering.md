@@ -94,6 +94,3 @@ RWD file /home/nanami/data/civic_tba_0_steering.bin.rwd created.
 - Then try flashing the homemade 0 steering rwd.
 - If the homemade rwd bricks the eps, use stock rwd to do recovery.
 - <b>Caution! Improper flashing may damage the eps. I don't have civic, so I never test it on car. Use it at your own risk.</b>
-### The files
- - [Civic 39990-TBA stock rwd](https://github.com/nanamiwang/rwd-xray/raw/master/tools/files/39990-TBA-A030-M1.rwd.gz)
- - [Civic 39990-TBA 0 steering rwd](https://github.com/nanamiwang/rwd-xray/raw/master/tools/files/civic_tba_0_steering.bin.rwd)
