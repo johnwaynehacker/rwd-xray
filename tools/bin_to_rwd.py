@@ -2,10 +2,10 @@
 #
 # Convert full firmware binary to rwd patch.
 # Supported models:
-#   CR-V 5g (part num: 39990-TLA)
-#   Civic 2016 sedan (part num: 39990-TBA) 
-#   Civic 2016 hatchback Australia (part num: 39990-TEA) 
-#   Civic 2016 hatchback (part num: 39990-TGG)
+#   CR-V 5g (part num: 39990-TLA), tested
+#   Civic 2016 sedan (part num: 39990-TBA), tested
+#   Civic 2016 hatchback Australia (part num: 39990-TEA), tested
+#   Civic 2016 hatchback (part num: 39990-TGG), tested
 #
 import os
 import sys
