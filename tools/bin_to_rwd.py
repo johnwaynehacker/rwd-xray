@@ -5,6 +5,7 @@
 #   CR-V 5g (part num: 39990-TLA)
 #   Civic 2016 sedan (part num: 39990-TBA) 
 #   Civic 2016 hatchback Australia (part num: 39990-TEA) 
+#   Civic 2016 hatchback (part num: 39990-TGG)
 #
 import os
 import sys
@@ -47,7 +48,7 @@ car_models = {
   },
 
   '39990-TBA-A030': {
-    'can-address': '0x18DA03F1',
+    'can-address': '0x18DA30F1',
     'supported-versions': ['39990-TBA-A000', '39990-TBA-A010', '39990-TBA-A020', '39990-TBA-A030'],
     'security-key': ['0x001100121020', '0x001100121020', '0x011101121120', '0x011101121120'],
     'encryption-key':  '0x010203',
