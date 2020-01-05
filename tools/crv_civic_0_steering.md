@@ -16,7 +16,7 @@
 - "00 28" is the lowest vehicle speed (in kph) that eps can accept steering request at. 
 - So the limitation can be removed by changing "00 28" to "00 00", make a rwd patch, flash it to the car. 
 
-### The problem for making the rwd patch
+### The rwd patch format
 - Both CR-V and civic use [rwd format 0x5A](https://github.com/gregjhogan/rwd-xray/blob/master/format/x5a.py)
 - Most rwd params can be found by parsing stock rwd using [rwd-xray.py](https://github.com/gregjhogan/rwd-xray/blob/master/rwd-xray.py), except the encryption algorithm.
 - The code in rwd is encrypted using a byte substitution algo, firmware will decrypt the code inplace.
