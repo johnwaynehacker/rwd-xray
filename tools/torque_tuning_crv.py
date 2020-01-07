@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Civic sedan torque tuning
+# 2017 CR-V EX torque tuning
 #
 import os
 import sys
