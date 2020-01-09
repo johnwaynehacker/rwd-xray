@@ -63,7 +63,7 @@ def main():
       'python3',
       'bin_to_rwd.py',
       '--input_bin', out_bin_path,
-      '--model',  '39990-TGG-A120'
+      '--model',  '39990-TEA-T330'
     ]
     subprocess.check_call(cmds, cwd=cur_dir)
     print('RWD file %s created.' % (out_bin_path[:-4] + '.rwd'))
