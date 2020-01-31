@@ -56,7 +56,7 @@ new_filter_table = [
 
 ##therefore correct torqueV is 0x0, 0x1C0, 0x2A0, 0x3E8, 0x52D, 0x700, 0x8BE, 0xC3F, 0xE00
 
-speed_clamp_lo_addr = 0x135c0
+speed_clamp_lo_addr = 0x135c1
 torque_table_start_addr = 0x13816
 filter_table_start_addr = 0x13a68
 torque_table_size = len(original_torque_table) * 2
