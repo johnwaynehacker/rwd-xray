@@ -50,7 +50,7 @@ speed_clamp_lo_addr = 0x13545
 torque_table_start_addr = 0x1379a
 filter_table_start_addr = 0x139ec
 torque_table_size = len(original_torque_table) * 2
-
+filter_table_size = len(original_filter_table) * 2
 
 def main():
   # example: python3 /Users/jo/rwd-xray/tools/crv_0steer_2x_torque.py --input_bin /Users/jo/user.bin
