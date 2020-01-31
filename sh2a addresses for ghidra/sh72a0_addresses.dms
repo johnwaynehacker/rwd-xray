@@ -1160,6 +1160,8 @@ LIN11_data_5_buffer_register_(L11DB5) 0xFF61017C
 LIN11_data_6_buffer_register_(L11DB6) 0xFF61017D
 LIN11_data_7_buffer_register_(L11DB7) 0xFF61017E
 LIN11_data_8_buffer_register_(L11DB8) 0xFF61017F
+CAN0_Message_Control_Registers_0-63_(C0MCTL0-C0MCTL63) 0xff600500
+CAN0_Mailbox_Registers_0-63_(C0MB0-C0MB63) 0xff600000
 CAN0_Control_Register_(C0CTLR) 0xFF600540
 CAN0_Bit_Configuration_Register_(C0BCR) 0xFF600544
 CAN0_Mask_Register_0_(C0MKR0) 0xFF600430

@@ -51,7 +51,10 @@ torque_table_start_addr = 0x1379a
 filter_table_start_addr = 0x139ec
 torque_table_size = len(original_torque_table) * 2
 filter_table_size = len(original_filter_table) * 2
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5cae9e15b138c59a0cb1ba708b70935b3cba11fc
 
 def main():
   # example: python3 /Users/jo/rwd-xray/tools/crv_0steer_2x_torque.py --input_bin /Users/jo/user.bin
