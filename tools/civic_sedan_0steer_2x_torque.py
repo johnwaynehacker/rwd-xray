@@ -71,7 +71,7 @@ def main():
     original_filter_table_bytes = bytearray()
     for v in original_filter_table:
       original_filter_table_bytes += struct.pack('!H', v)
-    assert cur_table == original_filter_table_bytes, 'Incorrect full fw bin, torque table mismatched.'
+    assert cur_table == original_filter_table_bytes, 'Incorrect full fw bin, filter table mismatched.'
 
     # Build new table data
     new_fw = bytearray()
