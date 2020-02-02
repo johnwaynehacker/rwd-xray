@@ -18,7 +18,7 @@ original_filter_table = [0x1E6, 0x1E6]
 
 new_filter_table = [0x200, 0x300]
 
-version_addr = 0xfb06 # wrong: 0xfc17
+version_addr = 0xfb06
 speed_clamp_lo_addr = 0x11909
 torque_table_start_addr = 0x11b6a
 filter_table_start_addr = 0x11dbe

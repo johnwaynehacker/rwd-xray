@@ -26,6 +26,7 @@ new_torque_table = [
 0x0, 	0xA70, 	0x1200, 	0x1766, 	0x1B00, 	0x1E3D, 	0x20C2, 	0x22C6, 	0x2400,
 0x0, 	0xA70, 	0x1200, 	0x1766, 	0x1B00, 	0x1E3D, 	0x20C2, 	0x22C6, 	0x2400]
 
+version_addr = 0x4b4ea #other possible offsets: 0x4b543, 0x4b59c, 0x4b5f5, 0x4b64e, 0x4b6a7, 0x4b700
 torque_table_start_addr = 0x13812
 speed_clamp_lo_addr = 0x135bd
 torque_table_size = len(original_torque_table) * 2
@@ -47,8 +48,10 @@ def main():
     assert cur_table == original_torque_table_bytes, 'Incorrect full fw bin, torque table mismatched.'
     # Build new table data
     new_fw = bytearray()
-    new_fw += full_fw[:speed_clamp_lo_addr]
-    new_fw += bytes(1)
+    new_fw += full_fw[:version_addr]
+    new_fw.append(0x2c)
+    new_fw += full_fw[(version_addr + 1):speed_clamp_lo_addr]
+    new_fw.append(0x00)
     new_fw += full_fw[(speed_clamp_lo_addr + 1):torque_table_start_addr]
     for v in new_torque_table:
       new_fw += struct.pack('!H', v)
