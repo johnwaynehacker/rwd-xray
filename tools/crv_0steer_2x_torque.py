@@ -8,19 +8,19 @@ import argparse
 import subprocess
 import struct
 
-original_torque = [0x134D, 0x1400]
+original_torque_table = [0x129a, 0x134D, 0x1400]
 
 #CR_V max steer from honda sending only goes up to 6th position, so we can change the last 3
 
-new_torque = [0x2E00, 0x3C00]
+new_torque_table = [0x2000, 0x2E00, 0x3C00]
 
-original_filter = [0x1E6, 0x1E6]
+original_filter_table = [0x1E6, 0x1E6]
 
 new_filter_table = [0x200, 0x300]
 
-version_addr = 0xfc08
+version_addr = 0xfb06 # wrong: 0xfc17
 speed_clamp_lo_addr = 0x11909
-torque_table_start_addr = 0x11b6c
+torque_table_start_addr = 0x11b6a
 filter_table_start_addr = 0x11dbe
 torque_table_size = len(original_torque_table) * 2
 filter_table_size = len(original_filter_table) * 2
@@ -49,9 +49,9 @@ def main():
     # Build new table data
     new_fw = bytearray()
     new_fw += full_fw[:version_addr]
-    new_fw += 0x2c
+    new_fw.append(0x2c)
     new_fw += full_fw[(version_addr + 1):speed_clamp_lo_addr]
-    new_fw += bytes(1)
+    new_fw.append(0x00)
     new_fw += full_fw[(speed_clamp_lo_addr + 1):torque_table_start_addr]
     for v in new_torque_table:
       new_fw += struct.pack('!H', v)
