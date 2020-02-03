@@ -82,8 +82,8 @@ car_models = {
   },
 
    '39990-TRW-A020': { #clarity thanks to wirelessnet2
-     'supported-versions': ['39990-TRW-A010', '39990-TRW-A020'],
-     'security-key': ['0x011101121120', '0x011101121120'],
+     'supported-versions': ['39990-TRW-A010', '39990-TRW-A020', '39990-TRW,A010', '39990-TRW,A020'],
+     'security-key': ['0x011101121120', '0x011101121120', '0x011101121120', '0x011101121120'],
      'encryption-key': '0x010203',
      'data-size': 0x4c000,
       #(checksum func idx, offset)
