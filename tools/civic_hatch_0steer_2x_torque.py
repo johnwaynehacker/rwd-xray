@@ -56,9 +56,7 @@ def main():
 
     # Build new table data
     new_fw = bytearray()
-    new_fw += full_fw[:version_addr]
-    new_fw.append(0x2c)
-    new_fw += full_fw[(version_addr + 1):speed_clamp_lo_addr]
+    new_fw += full_fw[:speed_clamp_lo_addr]
     new_fw.append(0x00)
     new_fw += full_fw[(speed_clamp_lo_addr + 1):torque_table_start_addr]
     for v in new_torque_table:
@@ -66,7 +64,9 @@ def main():
     new_fw += full_fw[(torque_table_start_addr + torque_table_size):filter_table_start_addr]
     for v in new_filter_table:
       new_fw += struct.pack('!H', v)
-    new_fw += full_fw[(filter_table_start_addr + filter_table_size):]
+    new_fw += full_fw[(filter_table_start_addr + filter_table_size):version_addr]
+    new_fw.append(0x2c)
+    new_fw += full_fw[(version_addr + 1):]
     assert len(full_fw) == len(new_fw), 'New fw length error {}.'.format(len(new_fw))
     out_bin_path = os.path.join(os.path.dirname(args.input_bin), '{}_{}x.bin'.format(os.path.basename(args.input_bin).split('.')[0], '0steer_2'))
     with open(out_bin_path, 'wb') as out_f:
