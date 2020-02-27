@@ -25,6 +25,11 @@ minimum steer speed reduced to 0mph
 39990-TVA-A150 Honda Accord
 
 
+# table_search.py
+### Usage:
+
+`Python3 table_search.py -bytes 18` with user.bin in same directory to find addresses with consecutive matching sets of 18 bytes. This assumes tables will have at least one set of matching adjacent rows.
+
 # rwd-xray
 Honda/Acura calibration file (rwd) firmware extractor
 

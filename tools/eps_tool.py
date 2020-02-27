@@ -230,7 +230,7 @@ def main():
 
                 0x1379a, #torque_table row 1
                 0x137ac, #torque_table row 2
-                0x137be, #torque_table row 3
+                0x137be, #torque_table row 3 <--- Touring uses config index 3
                 0x137d0, #torque_table row 4
                 0x137e2, #torque_table row 5
                 0x137f4, #torque_table row 6
