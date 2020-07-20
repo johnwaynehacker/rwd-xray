@@ -16,7 +16,8 @@ minimum steer speed reduced to 0mph
 39990-TBA-A030 Honda Civic Sedan  
 39990-TEG-A010 Honda Civic Sedan (Japan)  
 39990-TEA-T330 Honda Civic Hatch (Australia)  
-39990-TGG-A120 Honda Civic Hatch  
+39990-TGG-A120 Honda Civic Hatch
+39990-TGG-A020 Honda Civic Hatch (Sport)
 39990-TRW-A020 Honda Clarity  
 39990-TXM-A040 Honda Insight  
 
