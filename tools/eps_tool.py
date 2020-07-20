@@ -423,7 +423,7 @@ def main():
                 'filter_table row 0',
                 'filter_table row 1',
                 ]
-        elif input_bin_hash == '39710B41653F6B73B3B8C678D82790C0': #civic hatch sport thanks to bitchemist tony81 cfranhonda
+        elif input_bin_hash == '39710b41653f6b73b3b8c678d82790c0': #civic hatch sport thanks to bitchemist tony81 cfranhonda
             print('Detected bin: 39990-TGG-A020 Honda Civic Hatch Sport')
             supported_versions = ['39990-TGG-A010\x00\x00', '39990-TGG-A020\x00\x00', '39990-TGG,A020\x00\x00']
             security_key = ['\x01\x11\x01\x12\x11\x20', '\x01\x11\x01\x12\x11\x20', '\x01\x11\x01\x12\x11\x20']
