@@ -1,4 +1,4 @@
-# eps_tool
+# eps_tool - I AM NOT RESPONSIBLE IF YOU BRICK YOUR EPS!!! -cfranhonda
 ### Usage:
 
 `Python3 eps_tool.py` with user.bin in same directory to generate patched rwd  
