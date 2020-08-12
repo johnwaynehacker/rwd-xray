@@ -545,8 +545,13 @@ def main():
                 0x1386c, #torque_table row 6
                 0x1387e, #torque_table row 7
 
-                0x13a64, #filter_table row 0
-                0x13a76, #filter_table row 1
+                0x13a64, #filter_table row 1
+                0x13a76, #filter_table row 2
+                0x13a88, #filter_table row 3
+                0x13a9a, #filter_table row 4
+                0x13aac, #filter_table row 5
+                0x13abe, #filter_table row 6
+                0x13ad0, #filter_table row 7
                 ]
             data_old = [
                 '0x0028', #speed_clamp_lo
@@ -597,8 +602,13 @@ def main():
                 'torque_table row 6',
                 'torque_table row 7',
 
-                'filter_table row 0',
                 'filter_table row 1',
+                'filter_table row 2',
+                'filter_table row 3',
+                'filter_table row 4',
+                'filter_table row 5',
+                'filter_table row 6',
+                'filter_table row 7',
                 ]
         elif input_bin_hash == '3f0c3b65ed8f105673b2bc6d9933fa10': #clarity thanks to wirelessnet2
             print('Detected bin: 39990-TRW-A020 Honda Clarity')
