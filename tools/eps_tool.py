@@ -519,8 +519,13 @@ def main():
                 'torque_table row 6',
                 'torque_table row 7',
 
-                'filter_table row 0',
                 'filter_table row 1',
+                'filter_table row 2',
+                'filter_table row 3',
+                'filter_table row 4',
+                'filter_table row 5',
+                'filter_table row 6',
+                'filter_table row 7',
                 ]
         elif input_bin_hash == '39710b41653f6b73b3b8c678d82790c0': #civic hatch sport thanks to bitchemist tony81 cfranhonda
             print('Detected bin: 39990-TGG-A020 Honda Civic Hatch Sport')
