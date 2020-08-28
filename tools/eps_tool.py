@@ -301,7 +301,7 @@ def main():
                 'filter_table row 6',
                 'filter_table row 7',
                 ]
-        elif input_bin_hash == 'a062d1b894ef57efc2f54c392f47d9f0':
+        elif input_bin_hash == '23d29fe18a086299a7ca7168e2f32bb6':
             print('Detected bin: 39990-TBA-C020 Honda Civic Sedan Sport 2019')
             car_model = '39990-TBA-C020'  #civic sedan sport thanks to whiskytango_gaming cfranhonda tony81
             supported_versions = ['39990-TBA-C010\x00\x00', '39990-TBA-C020\x00\x00', '39990-TBA,C020\x00\x00']
