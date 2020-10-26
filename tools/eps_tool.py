@@ -133,6 +133,83 @@ def main():
 
                 'speed_table row 1'
                 ]
+            
+        if input_bin_hash == '79b695a73fd5ff22cbfeb4b83908ab29': #CR-V thanks to martin146, cfranhonda
+            print('Detected bin: 39990-TPA-G030 Honda CR-V')
+            supported_versions = ['39990-TPA-G010\x00\x00', '39990-TPA-G030\x00\x00', '39990-TPA,G030\x00\x00']
+            security_key = ['\x01\x11\x01\x12\x11\x20', '\x01\x11\x01\x12\x11\x20', '\x01\x11\x01\x12\x11\x20']
+            version_offsets = [0xecdf, 0xed3a, 0xed95, 0xedf0, 0xee4b]
+            version_old = b'39990-TPA-G030'
+            version_new = b'39990-TPA,G030'
+            data_offsets = [
+                0x11908, #speed_clamp_lo
+
+                0x11b5e, #torque_table row 1
+                0x11b70, #torque_table row 2
+                0x11b82, #torque_table row 3
+                0x11b94, #torque_table row 4
+                0x11ba6, #torque_table row 5
+                0x11bb8, #torque_table row 6
+                0x11bca, #torque_table row 7
+
+                0x11dd5, #filter_table row 1
+
+                0x11eac, #new_table row 1
+
+                0x119ae, #speed_table row 1
+                ]
+            data_old = [
+                '0x000a', #speed_clamp_lo
+
+                '0x0000, 0x00B5, 0x0161, 0x02d6, 0x04C0, 0x0B83, 0x1169, 0x1500, 0x1600', # original torque_table row 1
+                '0x0000, 0x00D4, 0x015A, 0x0233, 0x04C0, 0x0A85, 0x1100, 0x1500, 0x1600', # original torque_table row 2
+                '0x0000, 0x06B3, 0x0BF8, 0x0EBB, 0x1078, 0x1200, 0x1317, 0x1400, 0x1400', # original torque_table row 3
+                '0x0000, 0x06B3, 0x0BF8, 0x0EBB, 0x1078, 0x1200, 0x1317, 0x1400, 0x1400', # original torque_table row 4
+                '0x0000, 0x06B3, 0x0BF8, 0x0EBB, 0x1078, 0x1200, 0x1317, 0x1400, 0x1400', # original torque_table row 5
+                '0x0000, 0x06B3, 0x0BF8, 0x0EBB, 0x1078, 0x1200, 0x1317, 0x1400, 0x1400', # original torque_table row 6
+                '0x0000, 0x06E1, 0x0C9A, 0x1000, 0x1100, 0x1200, 0x129a, 0x134d, 0x1400', # original torque_table row 7
+
+                '0x009f, 0x0108, 0x0108, 0x0108, 0x01e6, 0x0108, 0x0108, 0x0108, 0x0108', #filter_table row 1
+
+                '0x002c, 0x009a, 0x00c0, 0x00c0, 0x00cd, 0x00cd, 0x00cd, 0x00cd, 0x00cd', #new_table row 1
+
+                '0x06ee, 0x06ee, 0x06ee, 0x06ee, 0x06ee, 0x06ee, 0x0532, 0x0532, 0x0532', #speed_table row 1
+                ]
+            data_new = [
+                '0x0001', #speed_clamp_lo
+
+                '0x0000, 0x00B5, 0x0161, 0x02D6, 0x04C0, 0x0B83, 0x1657, 0x212B, 0x2C00', # new torque_table row 1
+                '0x0000, 0x00D4, 0x015A, 0x0233, 0x04C0, 0x0A85, 0x1458, 0x1E2C, 0x2800', # new torque_table row 2
+                '0x0000, 0x06B3, 0x0BF8, 0x0EBB, 0x1078, 0x1200, 0x1955, 0x20AA, 0x2800', # new torque_table row 3
+                '0x0000, 0x06B3, 0x0BF8, 0x0EBB, 0x1078, 0x1200, 0x1955, 0x20AA, 0x2800', # new torque_table row 4
+                '0x0000, 0x06B3, 0x0BF8, 0x0EBB, 0x1078, 0x1200, 0x1955, 0x20AA, 0x2800', # new torque_table row 5
+                '0x0000, 0x06B3, 0x0BF8, 0x0EBB, 0x1078, 0x1200, 0x1955, 0x20AA, 0x2800', # new torque_table row 6
+                '0x0000, 0x06E1, 0x0C9A, 0x1000, 0x1100, 0x1200, 0x1955, 0x20AA, 0x2800', # new torque_table row 7
+
+                '0x009f, 0x0108, 0x0108, 0x0108, 0x0108, 0x0108, 0x0200, 0x0200, 0x0200', # filter_table row 1
+
+                '0x002c, 0x009a, 0x00c0, 0x00c0, 0x00cd, 0x00cd, 0x00cd, 0x00cd, 0x00cd', #new_table row 1
+
+                '0x06ee, 0x06ee, 0x06ee, 0x06ee, 0x06ee, 0x06ee, 0x0532, 0x0532, 0x0532', #speed_table row 1
+                ]
+            data_label = [
+                'speed_clamp_lo',
+
+                'torque_table row 1',
+                'torque_table row 2',
+                'torque_table row 3',
+                'torque_table row 4',
+                'torque_table row 5',
+                'torque_table row 6',
+                'torque_table row 7',
+
+                'filter_table row 1',
+
+                'new_table row 1',
+
+                'speed_table row 1'
+                ]
+            
         elif input_bin_hash == '9ccedbdd7d4d8d0eb356fadcc763353d':
             print('Detected bin: 39990-TBA-A030 Honda Civic Sedan')
             car_model = '39990-TBA-A030'  #civic sedan thanks to mystery leaker
