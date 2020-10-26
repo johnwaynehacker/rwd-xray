@@ -152,7 +152,7 @@ def main():
                 0x11bb8, #torque_table row 6
                 0x11bca, #torque_table row 7
 
-                0x11dd5, #filter_table row 1
+                0x11dd4, #filter_table row 1
 
                 0x11eac, #new_table row 1
 
