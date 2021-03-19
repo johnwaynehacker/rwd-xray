@@ -134,7 +134,7 @@ def main():
                 'speed_table row 1'
                 ]
             
-        if input_bin_hash == '0c21cdf567d6a5a5faaf4512af1029f0': #CR-V thanks to martin146, cfranhonda
+        elif input_bin_hash == '0c21cdf567d6a5a5faaf4512af1029f0': #CR-V thanks to martin146, cfranhonda
             print('Detected bin: 39990-TPA-G030 Honda CR-V')
             supported_versions = ['39990-TPA-G010\x00\x00', '39990-TPA-G030\x00\x00', '39990-TPA,G030\x00\x00']
             security_key = ['\x01\x11\x01\x12\x11\x20', '\x01\x11\x01\x12\x11\x20', '\x01\x11\x01\x12\x11\x20']
