@@ -1,5 +1,2 @@
 *.pyc 
 .idea/
-/.vs/VSWorkspaceState.json
-/.vs/slnx.sqlite
-/.vs/rwd-xray/v16/.suo
