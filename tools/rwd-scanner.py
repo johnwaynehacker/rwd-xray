@@ -3,6 +3,7 @@ import os
 import sys
 import struct
 import gzip
+import binascii
 
 def main():
     folder = sys.argv[1]
@@ -19,9 +20,11 @@ def main():
                 formats[indicator] = { 'count': 0 }
             formats[indicator]['count'] += 1
 
-    print "indicator bytes"
+    print('indicator bytes')
     for indicator in formats:
-        print indicator.encode('hex'), ':', formats[indicator]['count']
+        ind_bytes = binascii.b2a_hex(indicator)
+        ind_count = formats[indicator]['count']
+        print('{} : {}'.format(ind_bytes, ind_count))
 
 if __name__== "__main__":
     main()

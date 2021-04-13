@@ -1,7 +1,43 @@
+# eps_tool - I AM NOT RESPONSIBLE IF YOU BRICK YOUR EPS!!! -cfranhonda
+### Usage:
+
+`Python3 eps_tool.py` with user.bin in same directory to generate patched rwd  
+`Python3 eps_tool.py -stock` with user.bin in same directory to generate stock rwd  
+
+### Patches:
+
+fw version contains "," for detection by openpilot  
+torque table values doubled for range unused by stock lkas (a00-e00)  
+minimum steer speed reduced to 0mph  
+
+### Supported versions:
+
+39990-TLA-A040 Honda CR-V,   
+39990-TBA-A030 Honda Civic Sedan,
+39990-TBA-C120 Honda Civic Sedan 2019,
+39990-TBA-C020 Honda Civic Sedan Sport 2019,
+39990-TEG-A010 Honda Civic Sedan (Japan),   
+39990-TEA-T330 Honda Civic Hatch (Australia),   
+39990-TGG-A120 Honda Civic Hatch (LX, EX/-L),
+39990-TGN-E120 Honda Civic Hatch (Europe,
+39990-TGG-A020 Honda Civic Hatch (Sport/Sport Touring), 
+39990-TRW-A020 Honda Clarity,   
+39990-TXM-A040 Honda Insight.  
+
+### Coming soon:
+
+39990-TVA-A150 Honda Accord
+
+
+# table_search.py
+### Usage:
+
+`Python3 table_search.py -bytes 18` with user.bin in same directory to find addresses with consecutive matching sets of 18 bytes. This assumes tables will have at least one set of matching adjacent rows.
+
 # rwd-xray
 Honda/Acura calibration file (rwd) firmware extractor
 
-NOTE THAT THIS IS A WORK IN PROGRESS AND MAY NOT OUTPUT VALID FIRMWARE YET
+NOTE THAT THIS IS A WORK IN PROGRESS AND THE ONLY FIRMWARE THAT MAY WORK IS 39990-TV9-A910
 
 ### Usage
 From a terminal using python 2.x:  
@@ -30,20 +66,23 @@ for example, here is a firmware update for a 2016 Acura ILX EPS module:
 |`VEHICLE`|TV9|Acura ILX|
 |`VERSION`|A910|manufacturer region/code|
 
+See the [File Name Vehicle Reference](./FILENAME_VEHICLE_REFERENCE.md) to see what model and year each rwd file corresponds to.
+
 ## .rwd File Formats
-Each file has a signature, headers, and firmware
+Each file has a signature, headers, firmware and checksum
 
 ---
 
 ### Z (0x5a) format
-##### STATUS: high priority (many files use this format)
+TODO:
 - [x] signature
-- [ ] headers
-    - [ ] where are the encryption keys, are they in the 6th header?
+- [x] headers
+    - [x] encryption keys
 - [ ] firmware
-    - [ ] first 8 bytes are different, so what are they?
-    - [ ] firmware is most likely encrypted, so what is the cipher?
-    - [ ] can we find checksums to validate?
+    - [x] cipher
+    - [ ] checksums - need to find some to validate
+
+(many files use this format)
 
 ##### SIGNATURE
 ```
@@ -62,9 +101,13 @@ Each file has a signature, headers, and firmware
 +-+-+=====+===+-+=====+
 |C|L|V...V|...|L|V...V|
 +-+-+=====+===+-+=====+
-| ...                 |
-| (repeat)            |
-| ...                 |
+|C|L|V...V|...|L|V...V|
++-+-+=====+===+-+=====+
+|C|L|V...V|...|L|V...V|
++-+-+=====+===+-+=====+
+|C|L|V...V|...|L|V...V|
++-+-+=====+===+-+=====+
+|C|L|V...V|...|L|V...V|
 +-+-+=====+===+-+=====+
 |C|L|V...V|...|L|V...V|
 +-+-+=====+===+-+=====+
@@ -77,18 +120,49 @@ Each file has a signature, headers, and firmware
 |V|varies|header value (length = preceding L)|
 
 ##### FIRMWARE
-TBD
+```
++--------+
+|SSSSSSSS|
++--------+
+|LLLLLLLL|
++--------+-------+
+|DDDDDDDDDDDDDDDD|
+| ...            |
+| (repeat)       |
+| ...            |
+|DDDDDDDDDDDDDDDD|
++----+-----------+
+```
+
+|label|bytes|description|
+|----:|----:|-----------|
+|S|8|start address of firmware block|
+|L|8|length of firmware block|
+|D|varies|data (length = last end of block address)|
+
+##### CHECKSUM
+```
++----+
+|CCCC|
++----+
+```
+
+|label|bytes|description|
+|----:|----:|-----------|
+|C|4|sum of all bytes in file (excluding these bytes)|
 
 ---
 
 ### 1 (0x31) format
-##### STATUS: high priority (many files use this format)
+TODO:
 - [x] signature
 - [x] headers
+    - [x] encryption keys
 - [ ] firmware
-  - [ ] the last 4 bytes look different, what are they?
-  - [ ] 3 of 4 checksums don't come out correct, do I have the wrong start addresses? (see TODO comments in code)
-  - [ ] how do we identify location of checksums for all rwd files?
+    - [x] cipher
+    - [ ] checksums - validated for 39990-TV9-A910, can we generalize for all files?
+
+(many files use this format)
 
 ##### SIGNATURE
 ```
@@ -107,9 +181,13 @@ TBD
 +---+=======+===+=======+---+
 |T←↓|V...V←↓|...|V...V←↓|T←↓|
 +---+=======+===+=======+---+
-| ...                       |
-| (repeat)                  |
-| ...                       |
+|T←↓|V...V←↓|...|V...V←↓|T←↓|
++---+=======+===+=======+---+
+|T←↓|V...V←↓|...|V...V←↓|T←↓|
++---+=======+===+=======+---+
+|T←↓|V...V←↓|...|V...V←↓|T←↓|
++---+=======+===+=======+---+
+|T←↓|V...V←↓|...|V...V←↓|T←↓|
 +---+=======+===+=======+---+
 |T←↓|V...V←↓|...|V...V←↓|T←↓|
 +---+=======+===+=======+---+
@@ -132,14 +210,12 @@ TBD
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
-|    |DDDDDDDDDDDDDDDD|
 +----+----------------+
 | ...                 |
 | (repeat)            |
 | ...                 |
 +----+----------------+
 |AAAA|DDDDDDDDDDDDDDDD|
-|    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
 |    |DDDDDDDDDDDDDDDD|
@@ -155,13 +231,26 @@ TBD
 |A|4|address >> 4|
 |D|128|data|
 
+##### CHECKSUM
+```
++----+
+|CCCC|
++----+
+```
+
+|label|bytes|description|
+|----:|----:|-----------|
+|C|4|sum of all bytes in file (excluding these bytes)|
+
 ---
 
 ### X (0x58) format
-##### STATUS: low priority (very few files in this format)
+TODO:
 - [x] signature
 - [ ] headers
 - [ ] firmware
+
+(very few files in this format)
 
 ##### SIGNATURE
 ```
@@ -184,10 +273,12 @@ TBD
 ---
 
 ### Y (0x59) format
-##### STATUS: low priority (very few files in this format)
+TODO:
 - [x] signature
 - [ ] headers
 - [ ] firmware
+
+(very few files in this format)
 
 ##### SIGNATURE
 ```
@@ -210,10 +301,12 @@ TBD
 ---
 
 ### 0 (0x30) format
-##### STATUS: low priority (very few files in this format)
+TODO:
 - [x] signature
 - [ ] headers
 - [ ] firmware
+
+(very few files in this format)
 
 ##### SIGNATURE
 ```
@@ -235,4 +328,4 @@ TBD
 
 ---
 
-credit goes to george hotz for reverse engineering the firmware encoding
+credit goes to george hotz for reverse engineering the first firmware cipher
