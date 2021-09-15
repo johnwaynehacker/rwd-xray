@@ -14,7 +14,7 @@ This will output a file containing the firmware named:
 
 Part of the Honda Diagnostic System (HDS) software is a tool to flash firmware updates (J2534 Rewrite application) and a set of firmware update files.
 
-The firmeware update files can be found in the directory:  
+The firmware update files can be found in the directory:  
 `C:\Program Files (x86)\Honda\J2534 Pass Thru\CalibFiles`
 
 Each firmware file is named according to the part number  
